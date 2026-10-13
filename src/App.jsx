@@ -1,9 +1,15 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Events from "./pages/Events";
+import EventDetails from "./pages/EventDetails";
+import MyEvents from "./pages/MyEvents";
+
 import { logout } from "./features/auth/authSlice";
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,17 +20,27 @@ function App() {
 
   return (
     <div>
-      <nav>
+      <nav className="navbar">
         <h2>Event Management System</h2>
 
-        {currentUser && (
-          <div>
-            <span>Welcome, {currentUser.name} </span>
-            <button onClick={() => dispatch(logout())}>
-              Logout
-            </button>
-          </div>
-        )}
+        <div className="nav-links">
+          <Link to="/events">Explore Events</Link>
+
+          {currentUser ? (
+            <>
+              <Link to="/my-events">My Events</Link>
+              <span>Welcome, {currentUser.name}</span>
+              <button onClick={() => dispatch(logout())}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
+          )}
+        </div>
       </nav>
 
       <Routes>
@@ -56,25 +72,27 @@ function App() {
           }
         />
 
+        <Route path="/events" element={<Events />} />
+
         <Route
-          path="/events"
+          path="/events/:id"
           element={
-            currentUser ? (
-              <div>
-                <h1>Events Page</h1>
-                <p>Welcome, {currentUser.name}!</p>
-                <p>Events from Ticketmaster will appear here soon.</p>
-              </div>
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            currentUser
+              ? <EventDetails />
+              : <Navigate to="/login" replace />
           }
         />
 
         <Route
-          path="*"
-          element={<h2>Page not found</h2>}
+          path="/my-events"
+          element={
+            currentUser
+              ? <MyEvents />
+              : <Navigate to="/login" replace />
+          }
         />
+
+        <Route path="*" element={<h2>Page not found</h2>} />
       </Routes>
     </div>
   );
