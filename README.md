@@ -1,16 +1,130 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Event Management System
 
-Currently, two official plugins are available:
+## Project Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is a React-based Event Management System.
 
-## React Compiler
+The application allows users to explore real events, search and filter events, view event details, register for events, and manage their registrations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Event information is fetched from the Ticketmaster Discovery API.
 
-## Expanding the Oxlint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- React.js
+- JavaScript
+- HTML and CSS
+- Redux Toolkit
+- React Redux
+- React Router
+- Ticketmaster Discovery API
+- Local Storage
+- Vite
+- Git and GitHub
+
+## Features
+
+### 1. User Authentication
+- User registration with name, email, and password
+- Login and logout
+- Form validation
+- Duplicate email prevention
+- Login persistence using Local Storage
+- Frontend-only authentication simulation
+
+### 2. Event Exploration
+- Display real events using the Ticketmaster API
+- Search events by keyword
+- Filter events by category
+- Explore today's remaining and upcoming events
+- Display events in chronological order
+- Responsive event cards
+
+### 3. Event Details
+- Event name and image
+- Date and time
+- Venue and location
+- Event category
+- Additional available event information
+- Event details accessible without login
+
+### 4. Event Registration
+- Logged-in users can register for events
+- Duplicate registration prevention
+- Registration confirmation
+- Cancel event registration
+- User-specific registrations
+
+### 5. My Events
+- View registered events
+- Separate upcoming and completed events
+- Cancel upcoming registrations
+- Save registration data using Local Storage
+
+### 6. Responsive Design
+- Responsive navigation
+- Event cards using CSS Flexbox
+- Mobile-friendly forms and layouts
+- CSS media queries
+
+## Project Structure
+
+```text
+src/
+├── app/
+│   └── store.js
+├── features/
+│   ├── auth/
+│   │   └── authSlice.js
+│   ├── events/
+│   │   └── eventsSlice.js
+│   └── registrations/
+│       └── registrationsSlice.js
+├── pages/
+│   ├── Register.jsx
+│   ├── Login.jsx
+│   ├── Events.jsx
+│   ├── EventDetails.jsx
+│   └── MyEvents.jsx
+├── services/
+│   └── ticketmasterApi.js
+├── App.jsx
+├── App.css
+├── index.css
+└── main.jsx
+```
+
+## State Management
+
+Redux Toolkit manages the application's shared state.
+
+The application uses three slices:
+
+- **authSlice:** User authentication and login state
+- **eventsSlice:** Event data, loading status, and errors
+- **registrationsSlice:** User-specific event registrations and cancellations
+
+The application demonstrates the use of `configureStore`, `createSlice`, actions, reducers, `useSelector`, and `useDispatch`.
+
+
+## How to Run the Project
+
+1. Clone or download the GitHub repository.
+2. Open the project folder in VS Code.
+3. Open the terminal and install dependencies:
+
+   npm install
+
+4. Create a .env file in the project folder and add:
+
+   VITE_TICKETMASTER_API_KEY=YOUR_API_KEY
+
+5. Start the application:
+
+   npm run dev
+
+6. Open http://localhost:5173/ in the browser.
+
+Note: A Ticketmaster API key is required to fetch events.
+Do not upload the .env file to GitHub.
+
