@@ -1,29 +1,96 @@
+
 const API_KEY = import.meta.env.VITE_TICKETMASTER_API_KEY;
 
+// Get events from Ticketmaster
 export async function getEvents(keyword = "", category = "All") {
-  const today = new Date().toISOString().split("T")[0];
+  const allEvents = [];
 
-  let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${API_KEY}&size=20&startDateTime=${today}T00:00:00Z&sort=date,asc`;
+  // Fetch events from different future periods
+  const days = [0, 1, 7, 30];
 
-  // Search by event name
-  if (keyword.trim() !== "") {
-    url += `&keyword=${encodeURIComponent(keyword.trim())}`;
+  const now = new Date();
+
+  // Today's date in local format YYYY-MM-DD
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  const today = `${year}-${month}-${day}`;
+
+  for (let i = 0; i < days.length; i++) {
+    const date = new Date();
+    date.setUTCDate(date.getUTCDate() + days[i]);
+
+    const startDate = date.toISOString().split(".")[0] + "Z";
+
+    let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${API_KEY}&size=20&startDateTime=${encodeURIComponent(startDate)}&sort=date,asc`;
+
+    if (keyword.trim() !== "") {
+      url += `&keyword=${encodeURIComponent(keyword.trim())}`;
+    }
+
+    if (category !== "All") {
+      url += `&classificationName=${encodeURIComponent(category)}`;
+    }
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const events = data._embedded?.events || [];
+
+    // Prevent duplicate event IDs
+    for (let j = 0; j < events.length; j++) {
+      const exists = allEvents.some(
+        (event) => event.id === events[j].id
+      );
+
+      if (!exists) {
+        allEvents.push(events[j]);
+      }
+    }
   }
 
-  // Filter by category
-  if (category !== "All") {
-    url += `&classificationName=${encodeURIComponent(category)}`;
-  }
+  // Remove events from previous dates
+  const upcomingEvents = allEvents.filter((event) => {
+    const eventDate = event.dates?.start?.localDate;
+    const eventTime = event.dates?.start?.dateTime;
 
-  const response = await fetch(url);
+    if (!eventDate) {
+      return false;
+    }
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch events");
-  }
+    // Remove yesterday and older events
+    if (eventDate < today) {
+      return false;
+    }
 
-  const data = await response.json();
+    // For today's events, check exact time if available
+    if (eventDate === today && eventTime) {
+      return new Date(eventTime) > new Date();
+    }
 
-  return data._embedded?.events || [];
+    return true;
+  });
+
+  // Sort by event's displayed date and time
+  upcomingEvents.sort((a, b) => {
+    const dateA = a.dates.start.localDate;
+    const dateB = b.dates.start.localDate;
+
+    if (dateA < dateB) return -1;
+    if (dateA > dateB) return 1;
+
+    const timeA = a.dates.start.localTime || "23:59:59";
+    const timeB = b.dates.start.localTime || "23:59:59";
+
+    return timeA.localeCompare(timeB);
+  });
+
+  return upcomingEvents;
 }
 
 // Get details of one event
@@ -33,7 +100,7 @@ export async function getEventDetails(eventId) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch event details");
+    throw new Error(`API Error: ${response.status}`);
   }
 
   return await response.json();

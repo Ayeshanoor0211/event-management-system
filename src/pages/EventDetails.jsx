@@ -1,5 +1,6 @@
+
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getEventDetails } from "../services/ticketmasterApi";
@@ -10,6 +11,7 @@ import {
 
 function EventDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -26,6 +28,7 @@ function EventDetails() {
     async function loadEvent() {
       setLoading(true);
       setError("");
+      setMessage("");
 
       try {
         const data = await getEventDetails(id);
@@ -54,7 +57,6 @@ function EventDetails() {
 
   const venue = event._embedded?.venues?.[0];
 
-  // Check if current user already registered
   const isRegistered = registrations.some(
     (registration) =>
       registration.userId === currentUser?.id &&
@@ -63,7 +65,7 @@ function EventDetails() {
 
   function handleRegister() {
     if (!currentUser) {
-      setMessage("Please login to register.");
+      navigate("/login");
       return;
     }
 
@@ -83,6 +85,10 @@ function EventDetails() {
   }
 
   function handleCancel() {
+    if (!currentUser) {
+      return;
+    }
+
     dispatch(
       cancelRegistration({
         userId: currentUser.id,
@@ -100,17 +106,22 @@ function EventDetails() {
       <h1>{event.name}</h1>
 
       {event.images && event.images.length > 0 && (
-        <img src={event.images[0].url} alt={event.name} />
+        <img
+          src={event.images[0].url}
+          alt={event.name}
+        />
       )}
 
       <h3>Event Information</h3>
 
       <p>
-        <strong>Date:</strong> {event.dates?.start?.localDate || "Not available"}
+        <strong>Date:</strong>{" "}
+        {event.dates?.start?.localDate || "Not available"}
       </p>
 
       <p>
-        <strong>Time:</strong> {event.dates?.start?.localTime || "Not available"}
+        <strong>Time:</strong>{" "}
+        {event.dates?.start?.localTime || "Not available"}
       </p>
 
       <p>
@@ -144,7 +155,11 @@ function EventDetails() {
         </p>
       )}
 
-      {isRegistered ? (
+      {!currentUser ? (
+        <button onClick={handleRegister}>
+          Login to Register
+        </button>
+      ) : isRegistered ? (
         <button onClick={handleCancel}>
           Cancel Registration
         </button>

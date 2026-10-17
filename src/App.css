@@ -1,27 +1,60 @@
 
-/* ===== MAIN WEBSITE ===== */
+/* =================================
+   VANILLA CREAM THEME
+   Event Management System
+================================= */
 
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f6fa;
-  color: #222;
-}
+/* MAIN WEBSITE */
 
 * {
   box-sizing: border-box;
 }
 
-h1, h2, h3 {
-  color: #20243a;
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #fff9ee;
+  color: #493d34;
 }
 
-/* ===== NAVBAR ===== */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  color: #785737;
+}
+
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin: 35px 0 25px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  color: #98704b;
+}
+
+button,
+input,
+select {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* NAVBAR */
 
 .navbar {
   display: flex;
@@ -29,15 +62,15 @@ h1, h2, h3 {
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 18px 40px;
-  background-color: #20243a;
-  color: white;
+  padding: 20px 40px;
+  background-color: #f3e7d8;
+  border-bottom: 2px solid #e9d5bb;
 }
 
 .navbar h2 {
   margin: 0;
-  color: white;
   font-size: 24px;
+  color: #785737;
 }
 
 .nav-links {
@@ -48,53 +81,47 @@ h1, h2, h3 {
 }
 
 .nav-links a {
-  color: white;
+  color: #785737;
   text-decoration: none;
-  font-size: 16px;
+  font-weight: bold;
 }
 
 .nav-links a:hover {
-  color: #ffcc70;
+  color: #ad8056;
+  text-decoration: underline;
 }
 
 .nav-links span {
-  color: #ffcc70;
+  color: #785737;
+  font-weight: bold;
 }
 
 .nav-links button {
-  background-color: #ff595e;
+  padding: 10px 20px;
+  background-color: #ad8056;
   color: white;
   border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 20px;
 }
 
 .nav-links button:hover {
-  background-color: #e34449;
+  background-color: #916944;
 }
 
-/* ===== PAGE HEADINGS ===== */
-
-h1 {
-  text-align: center;
-  font-size: 36px;
-  margin: 30px 0 20px;
-}
-
-/* ===== LOGIN AND REGISTER ===== */
+/* LOGIN AND REGISTER */
 
 #root > div > div:not(.events-container):not(.event-details) {
   text-align: center;
 }
 
-#root > div > div > form {
+#root > div > div > form:not(:has(input[placeholder="Search events..."])) {
   max-width: 420px;
   margin: 25px auto;
   padding: 30px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #ead8be;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px #bfa88a30;
   text-align: left;
 }
 
@@ -102,191 +129,219 @@ h1 {
   display: block;
   margin: 12px 0 6px;
   font-weight: bold;
+  color: #785737;
 }
 
 #root > div > div > form input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
+  background-color: #fffdf8;
+  border: 1px solid #dfcbb4;
+  border-radius: 10px;
+  color: #493d34;
 }
 
-#root > div > div > form button {
+#root > div > div > form:not(:has(input[placeholder="Search events..."])) button {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   margin-top: 20px;
-  background-color: #4255a4;
+  background-color: #ad8056;
   color: white;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 10px;
 }
 
-#root > div > div > form button:hover {
-  background-color: #303f82;
+#root > div > div > form:not(:has(input[placeholder="Search events..."])) button:hover {
+  background-color: #916944;
 }
 
-/* ===== SEARCH AND FILTER ===== */
+/* SEARCH BAR */
 
 form:has(input[placeholder="Search events..."]) {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px auto;
+  gap: 12px;
+  margin: 25px auto 15px;
   padding: 0 15px;
 }
 
 input[placeholder="Search events..."] {
-  width: 320px;
+  width: 330px;
   max-width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
+  padding: 13px;
+  background-color: white;
+  border: 1px solid #e4ceb1;
+  border-radius: 12px;
+  color: #493d34;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #c9a27e;
+  outline-offset: 1px;
 }
 
 form:has(input[placeholder="Search events..."]) button {
-  padding: 12px 20px;
-  background-color: #4255a4;
+  padding: 12px 22px;
+  background-color: #ad8056;
   color: white;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 12px;
 }
 
 form:has(input[placeholder="Search events..."]) button:hover {
-  background-color: #303f82;
+  background-color: #916944;
 }
+
+/* CATEGORY DROPDOWN */
 
 select {
   display: block;
-  margin: 15px auto 25px;
-  padding: 12px;
-  min-width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  min-width: 220px;
+  max-width: 90%;
+  margin: 18px auto 30px;
+  padding: 12px 18px;
   background-color: white;
-  font-size: 15px;
+  border: 1px solid #e4ceb1;
+  border-radius: 12px;
+  color: #785737;
 }
 
-/* ===== EVENT CARDS ===== */
+/* EVENT CARDS */
 
 .events-container {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 25px;
-  padding: 20px;
   max-width: 1300px;
+  padding: 20px;
   margin: 0 auto;
 }
 
 .event-card {
   width: 300px;
   max-width: 100%;
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background-color: white;
-  color: #222;
+  padding: 18px;
+  background-color: #ffffff;
+  border: 1px solid #ead8be;
+  border-radius: 18px;
   text-align: center;
+  box-shadow: 0 4px 14px #bfa88a25;
 }
 
 .event-card:hover {
-  box-shadow: 0 5px 15px #00000018;
+  border-color: #d2ad88;
+  box-shadow: 0 8px 24px #bfa88a55;
 }
 
 .event-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .event-card h3 {
   font-size: 19px;
   margin: 18px 0 12px;
+  color: #785737;
 }
 
 .event-card p {
   font-size: 14px;
-  color: #666;
   margin: 10px 0;
+  color: #816f5d;
 }
 
 .event-card a {
   display: inline-block;
-  padding: 10px 16px;
+  padding: 11px 20px;
   margin-top: 12px;
-  background-color: #4255a4;
+  background-color: #ad8056;
   color: white;
+  border-radius: 12px;
   text-decoration: none;
-  border-radius: 6px;
+  font-weight: bold;
 }
 
 .event-card a:hover {
-  background-color: #303f82;
+  background-color: #916944;
 }
 
 .event-card button {
-  padding: 10px 16px;
-  margin-top: 12px;
-  border: none;
-  border-radius: 6px;
-  background-color: #ff595e;
+  padding: 11px 18px;
+  margin-top: 15px;
+  background-color: #b86c63;
   color: white;
-  cursor: pointer;
+  border: none;
+  border-radius: 12px;
 }
 
-/* ===== EVENT DETAILS ===== */
+.event-card button:hover {
+  background-color: #9d554d;
+}
+
+/* EVENT DETAILS */
 
 .event-details {
   max-width: 850px;
   margin: 35px auto;
   padding: 30px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #ead8be;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px #bfa88a30;
+  text-align: left;
 }
 
 .event-details h1 {
   text-align: left;
   font-size: 30px;
-}
-
-.event-details img {
-  width: 100%;
-  max-height: 370px;
-  object-fit: cover;
-  border-radius: 10px;
+  color: #785737;
 }
 
 .event-details h3 {
   margin-top: 25px;
+  color: #98704b;
+}
+
+.event-details img {
+  display: block;
+  width: 100%;
+  max-height: 370px;
+  object-fit: cover;
+  border-radius: 14px;
 }
 
 .event-details p {
+  margin: 12px 0;
   line-height: 1.7;
-  margin: 10px 0;
+  color: #625547;
 }
 
 .event-details button {
-  padding: 13px 22px;
+  padding: 13px 24px;
   margin-top: 20px;
-  background-color: #4255a4;
+  background-color: #ad8056;
   color: white;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 12px;
 }
 
 .event-details button:hover {
-  background-color: #303f82;
+  background-color: #916944;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* GENERAL LINKS AND BUTTONS */
+
+button {
+  transition: background-color 0.2s;
+}
+
+/* TABLET RESPONSIVENESS */
 
 @media (max-width: 768px) {
   .navbar {
@@ -309,17 +364,28 @@ select {
 
   .event-details {
     margin: 20px;
-    padding: 20px;
+    padding: 22px;
   }
 }
 
+/* MOBILE RESPONSIVENESS */
+
 @media (max-width: 480px) {
+  .navbar {
+    padding: 18px 12px;
+  }
+
   .navbar h2 {
-    font-size: 21px;
+    font-size: 20px;
   }
 
   .nav-links {
+    justify-content: center;
     gap: 15px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
   }
 
   h1 {
@@ -338,9 +404,14 @@ select {
     width: 100%;
   }
 
+  #root > div > div > form:not(:has(input[placeholder="Search events..."])) {
+    margin: 20px 12px;
+    padding: 20px;
+  }
+
   .event-details {
     margin: 12px;
-    padding: 15px;
+    padding: 18px;
   }
 
   .event-details h1 {

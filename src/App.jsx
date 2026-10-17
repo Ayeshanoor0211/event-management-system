@@ -48,7 +48,7 @@ function App() {
           path="/"
           element={
             <Navigate
-              to={currentUser ? "/events" : "/login"}
+              to="/events"
               replace
             />
           }
@@ -72,17 +72,16 @@ function App() {
           }
         />
 
+        {/* Everyone can explore events */}
         <Route path="/events" element={<Events />} />
 
+        {/* Everyone can view event details */}
         <Route
           path="/events/:id"
-          element={
-            currentUser
-              ? <EventDetails />
-              : <Navigate to="/login" replace />
-          }
+          element={<EventDetails />}
         />
 
+        {/* Only logged-in users can open My Events */}
         <Route
           path="/my-events"
           element={
